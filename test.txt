@@ -1,0 +1,69 @@
+[enemy]
+    [goblin]
+        hp: 30
+        dmg: 5
+        speed: 1.2
+        hostile: true
+
+        drops [
+            gold
+            dagger
+            potion
+        ]
+
+        stats {
+            armor: 2
+            critChance: 0.05
+        }
+    [/goblin]
+
+    [orc]
+        hp: 60
+        dmg: 10
+        speed: 0.9
+        hostile: true
+
+        drops [
+            gold
+            axe
+        ]
+
+        stats {
+            armor: 5
+            critChance: 0.02
+        }
+    [/orc]
+[/enemy]
+
+
+[items]
+    [gold]
+        value: 1
+        stackable: true
+    [/gold]
+
+    [dagger]
+        value: 15
+        stackable: false
+    [/dagger]
+
+    [potion]
+        value: 25
+        stackable: true
+    [/potion]
+[/items]
+
+
+[settings]
+    window {
+        width: 1280
+        height: 720
+        fullscreen: false
+    }
+
+    audio {
+        masterVolume: 0.8
+        musicVolume: 0.5
+        sfxVolume: 0.7
+    }
+[/settings]

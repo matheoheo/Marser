@@ -13,5 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{09a0a239-e429-4150-b8e3-9f5080ff5c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{1e33a0da-acb5-4b11-9334-dc5c496c9f9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Encryption">
+      <UniqueIdentifier>{cf8d60b9-9c03-4cca-bff9-bf7057b585ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{b5a9835f-cc62-4e2e-bd44-481d64ffae57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\Value.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\FileLoader.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger\Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\encryption\EncryptionRegistry.cpp">
+      <Filter>Encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="src\encryption\IEncryptionAlgorithm.cpp">
+      <Filter>Encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="src\encryption\XorEncryption.cpp">
+      <Filter>Encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\FilePacker.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\parser\FileLoader.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\Value.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logger\Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encryption\EncryptionRegistry.h">
+      <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encryption\EncryptionTypes.h">
+      <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encryption\IEncryptionAlgorithm.h">
+      <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encryption\XorEncryption.h">
+      <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\FileHeader.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\EncryptedPackage.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\Constants.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\FilePacker.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Random.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
