@@ -51,6 +51,12 @@
     <ClCompile Include="src\parser\FilePacker.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\Crc32.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\encryption\KeyVault.cpp">
+      <Filter>Encryption</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\parser\FileLoader.h">
@@ -88,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="src\utils\Random.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Crc32.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encryption\KeyVault.h">
+      <Filter>Encryption</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

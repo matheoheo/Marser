@@ -16,6 +16,9 @@ namespace matt::parser
 		EncryptedPackage()
 			:version(0),
 			encryptionType(0)
-		{}
+		{
+			for (size_t i = 0; i < constants::saltSize; ++i)
+				salt[i] = 11; //Random Initalization
+		}
 	};
 }

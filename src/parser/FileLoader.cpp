@@ -3,8 +3,11 @@
 #include <iostream>
 #include <format>
 #include <algorithm>
+#include <bit>
+#include <array>
 #include "logger/Logger.h"
 #include "FileHeader.h"
+#include "utils/Crc32.h"
 #include "Constants.h"
 
 namespace matt::parser
@@ -27,12 +30,13 @@ namespace matt::parser
             return {};
         }
         sourceFile.seekg(0, std::ios::beg);
-        FileHeader header;
-        if (!sourceFile.read(reinterpret_cast<char*>(&header), sizeof(FileHeader)))
+        std::array<std::byte, sizeof(FileHeader)> rawHeader{};
+        if (!sourceFile.read(reinterpret_cast<char*>(rawHeader.data()), rawHeader.size()))
         {
             MATT_ERROR("Failed to read header", filePath);
             return {};
         }
+        FileHeader header = std::bit_cast<FileHeader>(rawHeader);
 
         if (std::memcmp(constants::magic, header.magic, constants::magicSize) != 0)
         {
@@ -65,19 +69,33 @@ namespace matt::parser
             MATT_ERROR("Failed to read file's payload data", filePath);
             return {};
         }
+        auto checksum = matt::utils::Crc32::compute(package.payload);
+        if (header.checksum != checksum)
+        {
+            MATT_ERROR("Checksum value doesn't match, file is corrupted", filePath);
+            return {};
+        }
         return package;
 	}
     std::string FileLoader::loadFromFileAsString(const std::filesystem::path& filePath)
     {
         MATT_INFO("Loading file as string: ", filePath);
-        std::ifstream sourceFile(filePath, std::ios::binary);
+        std::ifstream sourceFile(filePath, std::ios::binary | std::ios::ate);
         if (!sourceFile)
         {
             MATT_ERROR("Failed to open file: ", filePath);
             return {};
         }
 
-        return std::string((std::istreambuf_iterator<char>(sourceFile)),std::istreambuf_iterator<char>()) ;
+        const std::uint64_t fileSize = static_cast<uint64_t>(sourceFile.tellg());
+        sourceFile.seekg(0, std::ios::beg);
+        std::string result(fileSize, '\0');
+        if (!sourceFile.read(result.data(), fileSize))
+        {
+            MATT_ERROR("Failed to read file: ", filePath);
+            return {};
+        }
+        return result;
     }
 }
 

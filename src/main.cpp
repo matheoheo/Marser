@@ -4,7 +4,6 @@
 #include "encryption/EncryptionRegistry.h"
 
 auto masterKey = matt::encryption::ByteVector{ std::byte{'K'}, std::byte{'O'} , std::byte{'T'} };
-//178 81 107 28 24 205
 void pack()
 {
 	matt::parser::FilePacker::PackerData data;
@@ -30,7 +29,7 @@ void unpack()
 
 int main()
 {
-	//pack();
+	pack();
 	unpack();
 	return 0;
 }

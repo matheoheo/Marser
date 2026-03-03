@@ -21,17 +21,20 @@
   <ItemGroup>
     <ClCompile Include="src\encryption\EncryptionRegistry.cpp" />
     <ClCompile Include="src\encryption\IEncryptionAlgorithm.cpp" />
+    <ClCompile Include="src\encryption\KeyVault.cpp" />
     <ClCompile Include="src\encryption\XorEncryption.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\parser\FileLoader.cpp" />
     <ClCompile Include="src\parser\FilePacker.cpp" />
     <ClCompile Include="src\parser\Value.cpp" />
+    <ClCompile Include="src\utils\Crc32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\encryption\EncryptionRegistry.h" />
     <ClInclude Include="src\encryption\EncryptionTypes.h" />
     <ClInclude Include="src\encryption\IEncryptionAlgorithm.h" />
+    <ClInclude Include="src\encryption\KeyVault.h" />
     <ClInclude Include="src\encryption\XorEncryption.h" />
     <ClInclude Include="src\logger\Logger.h" />
     <ClInclude Include="src\parser\Constants.h" />
@@ -40,6 +43,7 @@
     <ClInclude Include="src\parser\FileLoader.h" />
     <ClInclude Include="src\parser\FilePacker.h" />
     <ClInclude Include="src\parser\Value.h" />
+    <ClInclude Include="src\utils\Crc32.h" />
     <ClInclude Include="src\utils\Random.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

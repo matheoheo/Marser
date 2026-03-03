@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <type_traits>
 #include "Constants.h"
 
 namespace matt::parser
@@ -19,4 +20,5 @@ namespace matt::parser
 #pragma pack(pop)
 
 	static_assert(sizeof(FileHeader) == 32, "Sizeof FileHeader must be equal to 32 bytes!");
+	static_assert(std::is_trivially_copyable_v<FileHeader>, "FileHeader must be trivially copyable!");
 }

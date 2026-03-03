@@ -2,6 +2,7 @@
 #include "logger/Logger.h"
 #include "Constants.h"
 #include "utils/Random.h"
+#include "utils/Crc32.h"
 #include "encryption/EncryptionTypes.h"
 #include "encryption/EncryptionRegistry.h"
 #include "FileLoader.h"
@@ -28,16 +29,16 @@ bool matt::parser::FilePacker::packFile(const std::filesystem::path& sourcePath,
 	return packContent(content, data);
 }
 
-matt::parser::FileHeader matt::parser::FilePacker::generateHeader(std::string_view content, const PackerData& data, std::span<const std::byte> saltKey, std::span<const std::byte> cryptedData)
+matt::parser::FileHeader matt::parser::FilePacker::generateHeader(std::string_view content, const PackerData& data, std::span<const std::byte> saltKey, std::span<const std::byte> byteData)
 {
-	FileHeader result;
+	FileHeader result{};
 	std::memcpy(result.magic, matt::parser::constants::magic, matt::parser::constants::magicSize);
 	std::memcpy(result.salt, saltKey.data(), saltKey.size());
 	result.version = matt::parser::constants::currentVersion;
 	result.encryptionType = static_cast<uint8_t>(data.encType);
 	result.originalSize = content.size();
-	result.payloadSize = cryptedData.size();
-	result.checksum = 11; //check sum is to do
+	result.payloadSize = byteData.size();
+	result.checksum = matt::utils::Crc32::compute(byteData);
 	return result;
 }
 
@@ -48,7 +49,6 @@ std::array<std::byte, matt::parser::constants::saltSize> matt::parser::FilePacke
 	std::array<std::byte, matt::parser::constants::saltSize> result;
 	for (size_t i = 0; i < size; ++i)
 		result[i] = static_cast<std::byte>(Random::get<int>(0, 255));
-
 
 	return result;
 }
@@ -75,8 +75,12 @@ bool matt::parser::FilePacker::writeToFile(const std::filesystem::path& resultPa
 		MATT_ERROR("Cannot open result file when packing", resultPath);
 		return false;
 	}
-	resultFile.write(reinterpret_cast<const char*>(&header), sizeof(header));
-	resultFile.write(reinterpret_cast<const char*>(cryptedData.data()), cryptedData.size());
+	if (!resultFile.write(reinterpret_cast<const char*>(&header), sizeof(header)) ||
+		!resultFile.write(reinterpret_cast<const char*>(cryptedData.data()), cryptedData.size()))
+	{
+		MATT_ERROR("Failed to write to file: ", resultPath);
+		return false;
+	}
 
 	return true;
 }
