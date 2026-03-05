@@ -1,5 +1,6 @@
 #include "EncryptionRegistry.h"
 #include "XorEncryption.h"
+#include "ShiftEncryption.h"
 
 matt::encryption::EncryptionRegistry::EncryptionRegistry()
 {
@@ -25,5 +26,9 @@ void matt::encryption::EncryptionRegistry::populateRegistry()
 	registerAlgorithm(EncryptionType::Xor, [](std::span<const std::byte> masterKey, std::span<const std::byte> saltKey)
 		{
 			return std::make_unique<XorEncryption>(masterKey, saltKey);
+		});
+	registerAlgorithm(EncryptionType::Shift, [](std::span<const std::byte> masterKey, std::span<const std::byte> saltKey)
+		{
+			return std::make_unique<ShiftEncryption>(masterKey, saltKey);
 		});
 }

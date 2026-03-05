@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClCompile Include="src\encryption\EncryptionRegistry.cpp" />
     <ClCompile Include="src\encryption\IEncryptionAlgorithm.cpp" />
+    <ClCompile Include="src\encryption\KeyDerivation.cpp" />
     <ClCompile Include="src\encryption\KeyVault.cpp" />
+    <ClCompile Include="src\encryption\ShiftEncryption.cpp" />
     <ClCompile Include="src\encryption\XorEncryption.cpp" />
     <ClCompile Include="src\io\FileLoader.cpp" />
     <ClCompile Include="src\io\FilePacker.cpp" />
@@ -35,7 +37,9 @@
     <ClInclude Include="src\encryption\EncryptionRegistry.h" />
     <ClInclude Include="src\encryption\EncryptionTypes.h" />
     <ClInclude Include="src\encryption\IEncryptionAlgorithm.h" />
+    <ClInclude Include="src\encryption\KeyDerivation.h" />
     <ClInclude Include="src\encryption\KeyVault.h" />
+    <ClInclude Include="src\encryption\ShiftEncryption.h" />
     <ClInclude Include="src\encryption\XorEncryption.h" />
     <ClInclude Include="src\io\Constants.h" />
     <ClInclude Include="src\io\EncryptedPackage.h" />
