@@ -6,7 +6,7 @@ matt::encryption::ByteVector matt::encryption::KeyDerivation::xorSalt(std::span<
 {
     if (masterKey.empty() || saltKey.empty())
     {
-        MATT_ERROR("Master key or salt key is empty, cannot continue.");
+        MATT_ERROR("Master key or salt key is empty, cannot salt key.");
         return {};
     }
 

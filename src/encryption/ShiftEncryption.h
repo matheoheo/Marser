@@ -11,5 +11,7 @@ namespace matt::encryption
 		virtual ByteVector encode(std::span<const std::byte> bytes) const override;
 		virtual ByteVector decode(std::span<const std::byte> bytes) const override;
 		virtual EncryptionType getType() const override;
+	private:
+		ByteVector performShift(std::span<const std::byte> bytes, bool encode) const;
 	};
 }
