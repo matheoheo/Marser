@@ -25,15 +25,15 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{b5a9835f-cc62-4e2e-bd44-481d64ffae57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="io">
+      <UniqueIdentifier>{9079e302-232e-4d21-9ac7-81354032bfce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\parser\Value.cpp">
-      <Filter>Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\FileLoader.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
     <ClCompile Include="src\logger\Logger.cpp">
@@ -48,20 +48,23 @@
     <ClCompile Include="src\encryption\XorEncryption.cpp">
       <Filter>Encryption</Filter>
     </ClCompile>
-    <ClCompile Include="src\parser\FilePacker.cpp">
-      <Filter>Parser</Filter>
-    </ClCompile>
     <ClCompile Include="src\utils\Crc32.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\encryption\KeyVault.cpp">
       <Filter>Encryption</Filter>
     </ClCompile>
+    <ClCompile Include="src\io\FileLoader.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\FilePacker.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\MattFile.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\parser\FileLoader.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
     <ClInclude Include="src\parser\Value.h">
       <Filter>Parser</Filter>
     </ClInclude>
@@ -80,18 +83,6 @@
     <ClInclude Include="src\encryption\XorEncryption.h">
       <Filter>Encryption</Filter>
     </ClInclude>
-    <ClInclude Include="src\parser\FileHeader.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\parser\EncryptedPackage.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\parser\Constants.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="src\parser\FilePacker.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
     <ClInclude Include="src\utils\Random.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -100,6 +91,24 @@
     </ClInclude>
     <ClInclude Include="src\encryption\KeyVault.h">
       <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\Constants.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\EncryptedPackage.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\FileHeader.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\FileLoader.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\FilePacker.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\MattFile.h">
+      <Filter>io</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

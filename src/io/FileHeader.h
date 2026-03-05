@@ -3,7 +3,7 @@
 #include <type_traits>
 #include "Constants.h"
 
-namespace matt::parser
+namespace matt::io
 {
 #pragma pack(push, 1)
 	struct FileHeader

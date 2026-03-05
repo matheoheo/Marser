@@ -1,35 +1,16 @@
 #include <iostream>
-#include "parser//FileLoader.h"
-#include "parser//FilePacker.h"
-#include "encryption/EncryptionRegistry.h"
-
-auto masterKey = matt::encryption::ByteVector{ std::byte{'K'}, std::byte{'O'} , std::byte{'T'} };
-void pack()
-{
-	matt::parser::FilePacker::PackerData data;
-	data.encType = matt::encryption::EncryptionType::Xor;
-	data.resultPath = "wynikowy.matt";
-	data.masterKey = matt::encryption::ByteVector{ std::byte{'K'}, std::byte{'O'} , std::byte{'T'} };
-	matt::parser::FilePacker::packFile("test.txt", data);
-}
-
-void unpack()
-{
-	auto result = matt::parser::FileLoader::loadFromFile("wynikowy.matt");
-	matt::encryption::EncryptionRegistry registry;
-	auto algo = registry.getAlgorithm(static_cast<matt::encryption::EncryptionType>(result.encryptionType),
-		masterKey, std::as_bytes(std::span{ result.salt }));
-	if (algo)
-	{
-		auto decoded = algo->decode(result.payload);
-		std::string result(reinterpret_cast<const char*>(decoded.data()), decoded.size());
-		std::cout << result << std::endl;
-	}
-}
+#include "io/MattFile.h"
 
 int main()
 {
-	pack();
-	unpack();
+	//Test if the abstracted MattFile works
+
+	//Pack plain .txt file
+	matt::io::MattFile::saveFile("TestFile.txt", "ResultantFile.matt", matt::encryption::EncryptionType::None);
+
+	//Read file as Text and print it to see if is decrypted
+	auto str = matt::io::MattFile::loadAsText("ResultantFile.matt");
+
+	std::cout << "Result is: " << std::endl << str << std::endl;
 	return 0;
 }

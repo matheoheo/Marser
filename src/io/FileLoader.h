@@ -3,7 +3,7 @@
 #include <filesystem>
 #include "EncryptedPackage.h"
 
-namespace matt::parser
+namespace matt::io
 {
 	class FileLoader
 	{

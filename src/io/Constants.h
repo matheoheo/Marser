@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace matt::parser::constants
+namespace matt::io::constants
 {
 	inline constexpr size_t magicSize = 4;
 	inline constexpr char magic[magicSize] = { 'M', 'A', 'T', 'T' };

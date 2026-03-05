@@ -10,7 +10,7 @@
 #include "utils/Crc32.h"
 #include "Constants.h"
 
-namespace matt::parser
+namespace matt::io
 {
 	EncryptedPackage FileLoader::loadFromFile(const std::filesystem::path& filePath)
 	{
@@ -77,6 +77,7 @@ namespace matt::parser
         }
         return package;
 	}
+
     std::string FileLoader::loadFromFileAsString(const std::filesystem::path& filePath)
     {
         MATT_INFO("Loading file as string: ", filePath);
@@ -87,7 +88,7 @@ namespace matt::parser
             return {};
         }
 
-        const std::uint64_t fileSize = static_cast<uint64_t>(sourceFile.tellg());
+        const size_t fileSize = static_cast<size_t>(sourceFile.tellg());
         sourceFile.seekg(0, std::ios::beg);
         std::string result(fileSize, '\0');
         if (!sourceFile.read(result.data(), fileSize))

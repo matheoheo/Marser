@@ -4,7 +4,7 @@
 #include <array>
 #include "encryption/EncryptionRegistry.h"
 
-namespace matt::parser
+namespace matt::io
 {
 	class FilePacker
 	{

@@ -10,7 +10,7 @@ namespace matt::encryption
 		KeyVault();
 		~KeyVault();
 
-		std::span<const std::byte> getKeyForAlgorithm(EncryptionType type) const;
+		ByteVector getKeyForAlgorithm(EncryptionType type) const;
 	private:
 		void initalize();
 		void cleanup();

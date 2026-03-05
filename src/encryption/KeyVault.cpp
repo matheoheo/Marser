@@ -1,5 +1,4 @@
 #include "KeyVault.h"
-#include <atomic>
 
 matt::encryption::KeyVault::KeyVault()
 {
@@ -11,7 +10,7 @@ matt::encryption::KeyVault::~KeyVault()
 	cleanup();
 }
 
-std::span<const std::byte> matt::encryption::KeyVault::getKeyForAlgorithm(EncryptionType type) const
+matt::encryption::ByteVector matt::encryption::KeyVault::getKeyForAlgorithm(EncryptionType type) const
 {
 	if (mKeys.contains(type))
 		return mKeys.at(type);
@@ -21,15 +20,17 @@ std::span<const std::byte> matt::encryption::KeyVault::getKeyForAlgorithm(Encryp
 
 void matt::encryption::KeyVault::initalize()
 {
-
+	mKeys[EncryptionType::Xor] = ByteVector{ std::byte{'M'}, std::byte{'A'}, std::byte{'T'}, std::byte{'H'}, std::byte{'E'}, std::byte{'O'},
+		std::byte{'H'}, std::byte{'E'}, std::byte{'O'} };
 }
 
 void matt::encryption::KeyVault::cleanup()
 {
 	for (auto& [key, val] : mKeys)
 	{
-		std::fill(std::begin(val), std::end(val), std::byte{ 0 });
-		//Must ensure that it is not optimzed away by compiler!!
+		//Volatile is required so the compilator will not optimize away
+		for (volatile auto& k : val)
+			k = std::byte{ 0 };
 		val.clear();
 	}
 	mKeys.clear();

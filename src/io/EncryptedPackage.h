@@ -3,7 +3,7 @@
 #include <vector>
 #include "Constants.h"
 
-namespace matt::parser
+namespace matt::io
 {
 	struct EncryptedPackage
 	{
