@@ -100,6 +100,11 @@ double matt::parser::Value::asDouble() const
 	return std::get<double>(mData);
 }
 
+float matt::parser::Value::asFloat() const
+{
+	return static_cast<float>(asDouble());
+}
+
 const std::string& matt::parser::Value::asString() const
 {
 	return std::get<std::string>(mData);

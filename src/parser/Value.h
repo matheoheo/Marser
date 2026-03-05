@@ -50,6 +50,7 @@ namespace matt::parser
 		bool asBool() const;
 		std::int64_t asInt() const;
 		double asDouble() const;
+		float asFloat() const;
 		const std::string& asString() const;
 		const List& asList() const;
 		const Map& asMap() const;

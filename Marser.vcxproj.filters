@@ -69,6 +69,9 @@
     <ClCompile Include="src\encryption\KeyDerivation.cpp">
       <Filter>Encryption</Filter>
     </ClCompile>
+    <ClCompile Include="src\parser\Tokenizer.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\parser\Value.h">
@@ -121,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="src\encryption\KeyDerivation.h">
       <Filter>Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\Token.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parser\Tokenizer.h">
+      <Filter>Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,6 +30,7 @@
     <ClCompile Include="src\io\MattFile.cpp" />
     <ClCompile Include="src\logger\Logger.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\parser\Tokenizer.cpp" />
     <ClCompile Include="src\parser\Value.cpp" />
     <ClCompile Include="src\utils\Crc32.cpp" />
   </ItemGroup>
@@ -48,6 +49,8 @@
     <ClInclude Include="src\io\FilePacker.h" />
     <ClInclude Include="src\io\MattFile.h" />
     <ClInclude Include="src\logger\Logger.h" />
+    <ClInclude Include="src\parser\Token.h" />
+    <ClInclude Include="src\parser\Tokenizer.h" />
     <ClInclude Include="src\parser\Value.h" />
     <ClInclude Include="src\utils\Crc32.h" />
     <ClInclude Include="src\utils\Random.h" />
