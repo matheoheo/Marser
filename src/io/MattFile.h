@@ -15,5 +15,9 @@ namespace matt::io
 		static matt::encryption::ByteVector loadFileRaw(const Path& fromFile);
 		//Loads, decrypts and converts to string
 		static std::string loadAsText(const Path& fromFile);
+		//Loads as plain text (no decryption or anything)
+		static std::string loadPlain(const Path& fromFile);
+		//returns true is file is encrypted (has MATT header)
+		static bool isEncrypted(const Path& file);
 	};
 }

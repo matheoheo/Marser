@@ -1,7 +1,8 @@
 #include "Value.h"
-
+#include <stdexcept>
+#include <iostream>
 matt::parser::Value::Value()
-	:mData(nullptr)
+	:mData(std::monostate{})
 {
 }
 
@@ -53,6 +54,39 @@ matt::parser::Value::Value(List&& v)
 matt::parser::Value::Value(Map&& v)
 	:mData(std::move(v))
 {
+}
+
+matt::parser::Value& matt::parser::Value::operator[](const std::string& key)
+{
+	if (std::holds_alternative<Map>(mData))
+		return std::get<Map>(mData)[key];
+
+	mData = Map{};
+	return std::get<Map>(mData)[key];
+}
+
+matt::parser::Value& matt::parser::Value::operator[](size_t index)
+{
+	if (isList())
+	{
+		auto& list = asList();
+		if (index >= list.size())
+			throw std::out_of_range("Value::operator[] - index out of bounds.");
+
+		return list[index];
+	}
+	throw std::runtime_error("Value::operator[] - Value is not a List.");
+}
+
+const matt::parser::Value& matt::parser::Value::operator[](size_t index) const
+{
+	if (isList())
+	{
+		const auto& list = asList();
+		return list.at(index);
+	}
+
+	throw std::runtime_error("Value::operator[] const - Value is not a List.");
 }
 
 bool& matt::parser::Value::asBool()
@@ -120,9 +154,9 @@ const matt::parser::Value::Map& matt::parser::Value::asMap() const
 	return std::get<Map>(mData);
 }
 
-bool matt::parser::Value::isNull() const
+bool matt::parser::Value::isMonostate() const
 {
-	return std::holds_alternative<std::nullptr_t>(mData);
+	return std::holds_alternative<std::monostate>(mData);
 }
 
 bool matt::parser::Value::isBool() const
@@ -153,4 +187,52 @@ bool matt::parser::Value::isList() const
 bool matt::parser::Value::isMap() const
 {
 	return std::holds_alternative<Map>(mData);
+}
+
+void matt::parser::Value::debugPrint(int indent) const
+{
+	std::string space(indent, ' '); // Create a string of 'indent' spaces
+
+	if (isBool()) 
+	{
+		std::cout << (asBool() ? "true" : "false");
+	}
+	else if (isInt()) 
+	{
+		std::cout << asInt();
+	}
+	else if (isDouble()) 
+	{
+		std::cout << asDouble();
+	}
+	else if (isString()) 
+	{
+		std::cout << "\"" << asString() << "\"";
+	}
+	else if (isList()) 
+	{
+		const auto& list = asList();
+		std::cout << "[\n";
+		for (size_t i = 0; i < list.size(); ++i)
+		{
+			std::cout << space << "  "; // Indent the items
+			list[i].debugPrint(indent + 2);
+			if (i < list.size() - 1) std::cout << ",";
+			std::cout << "\n";
+		}
+		std::cout << space << "]";
+	}
+	else if (isMap()) 
+	{
+		const auto& map = asMap();
+		std::cout << "{\n";
+		for (auto it = map.begin(); it != map.end(); ++it) 
+		{
+			std::cout << space << it->first << ": ";
+			it->second.debugPrint(indent + 2);
+			if (std::next(it) != map.end()) std::cout << ",";
+			std::cout << "\n";
+		}
+		std::cout << space << "}";
+	}
 }

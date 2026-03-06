@@ -67,7 +67,7 @@ matt::encryption::ByteVector matt::io::FilePacker::cryptData(std::string_view co
 	return matt::encryption::ByteVector(bytesContent.begin(), bytesContent.end());
 }
 
-bool matt::io::FilePacker::writeToFile(const std::filesystem::path& resultPath, const FileHeader& header, std::span<const std::byte> cryptedData)
+bool matt::io::FilePacker::writeToFile(const std::filesystem::path& resultPath, const FileHeader& header, std::span<const std::byte> bytesData)
 {
 	std::ofstream resultFile(resultPath, std::ios::binary);
 	if (!resultFile)
@@ -75,8 +75,18 @@ bool matt::io::FilePacker::writeToFile(const std::filesystem::path& resultPath, 
 		MATT_ERROR("Cannot open result file when packing", resultPath);
 		return false;
 	}
-	if (!resultFile.write(reinterpret_cast<const char*>(&header), sizeof(header)) ||
-		!resultFile.write(reinterpret_cast<const char*>(cryptedData.data()), cryptedData.size()))
+
+	if (static_cast<matt::encryption::EncryptionType>(header.encryptionType) != matt::encryption::EncryptionType::None)
+	{
+		//only if file is crypted we save header to file
+		if (!resultFile.write(reinterpret_cast<const char*>(&header), sizeof(header)))
+		{
+			MATT_ERROR("Failed to write header to file: ", resultPath);
+			return false;
+		}
+	}
+
+	if (!resultFile.write(reinterpret_cast<const char*>(bytesData.data()), bytesData.size()))
 	{
 		MATT_ERROR("Failed to write to file: ", resultPath);
 		return false;

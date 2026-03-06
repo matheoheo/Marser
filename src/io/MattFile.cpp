@@ -2,6 +2,8 @@
 #include "FileLoader.h"
 #include "FilePacker.h"
 #include "encryption/KeyVault.h"
+#include <fstream>
+
 bool matt::io::MattFile::saveFile(const Path& fromFile, const Path& toFile, matt::encryption::EncryptionType encType)
 {
 	matt::encryption::KeyVault keys;
@@ -31,4 +33,20 @@ std::string matt::io::MattFile::loadAsText(const Path& fromFile)
 {
 	auto bytes = loadFileRaw(fromFile);
 	return std::string(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+}
+
+std::string matt::io::MattFile::loadPlain(const Path& fromFile)
+{
+	return FileLoader::loadFromFileAsString(fromFile);
+}
+
+bool matt::io::MattFile::isEncrypted(const Path& file)
+{
+	std::ifstream f(file, std::ios::binary);
+	if (!f)
+		return false;
+	char header[constants::magicSize] = {};
+	f.read(header, constants::magicSize);
+
+	return std::memcmp(header, constants::magic, constants::magicSize) == 0;
 }

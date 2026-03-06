@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include <string>
 #include <string_view>
@@ -14,12 +14,13 @@ namespace matt::parser
 {
 	class Value
 	{
+	public:
 		using List = std::vector<Value>;
-		using Map = std::unordered_map<std::string, Value>;
+		using Map = std::map<std::string, Value>;
 	
 		using ValueType = std::variant
 		<
-			std::nullptr_t,
+			std::monostate,
 			bool,
 			std::int64_t,
 			double,
@@ -40,6 +41,10 @@ namespace matt::parser
 		Value(List&& v);
 		Value(Map&& v);
 
+		Value& operator[](const std::string& key);
+		Value& operator[](size_t index);
+		const Value& operator[](size_t index) const;
+
 		bool& asBool();
 		std::int64_t& asInt();
 		double& asDouble();
@@ -55,13 +60,16 @@ namespace matt::parser
 		const List& asList() const;
 		const Map& asMap() const;
 	
-		bool isNull() const;
+		bool isMonostate() const;
 		bool isBool() const;
 		bool isInt() const;
 		bool isDouble() const;
 		bool isString() const;
 		bool isList() const;
 		bool isMap() const;
+
+		//For Debug Information
+		void debugPrint(int indent = 0) const;
 	private:
 		ValueType mData;
 	};
