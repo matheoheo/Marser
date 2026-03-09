@@ -160,8 +160,13 @@ matt::parser::Value matt::parser::Parser::parseMap()
 		}
 		else
 		{
-			reportError(peek(), std::string("Unexpected token ") + std::string(peek().content));
-			advance();
+			if (peek().type == TokenType::Comma)
+				advance();
+			else
+			{
+				reportError(peek(), std::string("Unexpected token ") + std::string(peek().content));
+				advance();
+			}
 		}
 	}
 	expect(TokenType::RBrace, "Expected '}' to end the map block");

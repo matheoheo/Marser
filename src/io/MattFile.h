@@ -11,6 +11,8 @@ namespace matt::io
 		using Path = std::filesystem::path;
 		//Packs, encrypts, and saves to disk in one go
 		static bool saveFile(const Path& fromFile, const Path& toFile, matt::encryption::EncryptionType encType);
+		//Packs, encrytps and saves provided string in one go
+		static bool saveContent(std::string_view content, const Path& toFile, matt::encryption::EncryptionType encType);
 		//Loads from disk and decrypts into raw bytes
 		static matt::encryption::ByteVector loadFileRaw(const Path& fromFile);
 		//Loads, decrypts and converts to string

@@ -34,6 +34,7 @@
     <ClCompile Include="src\parser\Tokenizer.cpp" />
     <ClCompile Include="src\parser\Value.cpp" />
     <ClCompile Include="src\utils\Crc32.cpp" />
+    <ClCompile Include="tests\BasicTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\encryption\EncryptionRegistry.h" />

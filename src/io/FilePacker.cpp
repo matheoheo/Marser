@@ -29,6 +29,16 @@ bool matt::io::FilePacker::packFile(const std::filesystem::path& sourcePath, con
 	return packContent(content, data);
 }
 
+std::array<std::byte, matt::io::constants::saltSize> matt::io::FilePacker::generateSalt()
+{
+	auto size = constants::saltSize;
+	std::array<std::byte, matt::io::constants::saltSize> result;
+	for (size_t i = 0; i < size; ++i)
+		result[i] = static_cast<std::byte>(Random::get<int>(0, 255));
+
+	return result;
+}
+
 matt::io::FileHeader matt::io::FilePacker::generateHeader(std::string_view content, const PackerData& data, std::span<const std::byte> saltKey, std::span<const std::byte> byteData)
 {
 	FileHeader result{};
@@ -39,17 +49,6 @@ matt::io::FileHeader matt::io::FilePacker::generateHeader(std::string_view conte
 	result.originalSize = content.size();
 	result.payloadSize = byteData.size();
 	result.checksum = matt::utils::Crc32::compute(byteData);
-	return result;
-}
-
-
-std::array<std::byte, matt::io::constants::saltSize> matt::io::FilePacker::generateSalt()
-{
-	auto size = constants::saltSize;
-	std::array<std::byte, matt::io::constants::saltSize> result;
-	for (size_t i = 0; i < size; ++i)
-		result[i] = static_cast<std::byte>(Random::get<int>(0, 255));
-
 	return result;
 }
 

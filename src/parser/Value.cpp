@@ -1,6 +1,11 @@
 #include "Value.h"
 #include <stdexcept>
 #include <iostream>
+#include <ranges>
+#include <sstream>
+#include <charconv>
+
+
 matt::parser::Value::Value()
 	:mData(std::monostate{})
 {
@@ -46,12 +51,12 @@ matt::parser::Value::Value(std::string&& v)
 {
 }
 
-matt::parser::Value::Value(List&& v)
+matt::parser::Value::Value(List&& v) noexcept
 	:mData(std::move(v))
 {
 }
 
-matt::parser::Value::Value(Map&& v)
+matt::parser::Value::Value(Map&& v) noexcept
 	:mData(std::move(v))
 {
 }
@@ -87,6 +92,30 @@ const matt::parser::Value& matt::parser::Value::operator[](size_t index) const
 	}
 
 	throw std::runtime_error("Value::operator[] const - Value is not a List.");
+}
+
+matt::parser::Value& matt::parser::Value::operator=(const Map& map)
+{
+	mData = map;
+	return *this;
+}
+
+matt::parser::Value& matt::parser::Value::operator=(const List& list)
+{
+	mData = list;
+	return *this;
+}
+
+matt::parser::Value& matt::parser::Value::operator=(Map&& map) noexcept
+{
+	mData = std::move(map);
+	return *this;
+}
+
+matt::parser::Value& matt::parser::Value::operator=(List&& list) noexcept
+{
+	mData = std::move(list);
+	return *this;
 }
 
 bool& matt::parser::Value::asBool()
@@ -189,50 +218,111 @@ bool matt::parser::Value::isMap() const
 	return std::holds_alternative<Map>(mData);
 }
 
+const matt::parser::Value& matt::parser::Value::at(std::string_view key) const
+{
+	if (!isMap())
+		throw std::runtime_error("Value .at() - is not a map");
+	const auto& map = asMap();
+	auto it = map.find(key);
+	if (it != std::end(map))
+		return it->second;
+
+	throw std::runtime_error("Value .at() - key doesn't exist");
+}
+
+const matt::parser::Value& matt::parser::Value::get(std::string_view dottedPath) const
+{
+	static Value nullValue{};
+	auto splitStr = std::ranges::views::split(dottedPath, '.');
+	const Value* current = this;
+
+	for (auto&& token : splitStr)
+	{
+		if (token.begin() == token.end())
+			return nullValue;
+
+		std::string_view key{&*token.begin(), static_cast<size_t>(std::ranges::size(token))};
+		if (current->isMap())
+		{
+			const auto& map = current->asMap();
+			auto it = map.find(key);
+			if (it == std::end(map))
+				return nullValue;
+
+			current = &it->second;
+		}
+		else if (current->isList())
+		{
+			//Check if the key is numeric one.
+			size_t index = 0;
+			auto [ptr, ec] = std::from_chars(key.data(), key.data() + key.size(), index);
+			if (ec == std::errc() && ptr == key.data() + key.size())
+			{
+				const auto& list = current->asList();
+				if (index >= list.size())
+					return nullValue;
+				current = &list[index];
+			}
+		}
+		else
+			return nullValue;
+
+	}
+	return *current;
+}
+
+bool matt::parser::Value::contains(std::string_view key) const
+{
+	if(!isMap())
+		return false;
+
+	return asMap().contains(key);
+}
+
 void matt::parser::Value::debugPrint(int indent) const
 {
-	std::string space(indent, ' '); // Create a string of 'indent' spaces
+	serialize(std::cout, 0);
+}
 
-	if (isBool()) 
-	{
-		std::cout << (asBool() ? "true" : "false");
-	}
-	else if (isInt()) 
-	{
-		std::cout << asInt();
-	}
-	else if (isDouble()) 
-	{
-		std::cout << asDouble();
-	}
-	else if (isString()) 
-	{
-		std::cout << "\"" << asString() << "\"";
-	}
-	else if (isList()) 
+std::string matt::parser::Value::emitString() const
+{
+	std::stringstream stream;
+	serialize(stream, 0);
+	return stream.str();
+}
+
+void matt::parser::Value::serialize(std::ostream& os, int indent) const
+{
+	std::string space(indent, ' ');
+	if (isString()) os << "\"" << asString() << "\"";
+	else if (isBool())  os << (asBool() ? "true" : "false");
+	else if (isInt()) os << asInt();
+	else if (isDouble()) os << asDouble();
+	else if (isList())
 	{
 		const auto& list = asList();
-		std::cout << "[\n";
+		os << "[";
 		for (size_t i = 0; i < list.size(); ++i)
 		{
-			std::cout << space << "  "; // Indent the items
-			list[i].debugPrint(indent + 2);
-			if (i < list.size() - 1) std::cout << ",";
-			std::cout << "\n";
+			list[i].serialize(os, indent + 2);
+			if (i < list.size() - 1) os << " ";
 		}
-		std::cout << space << "]";
+		os << "]";
 	}
-	else if (isMap()) 
+	else if (isMap())
 	{
 		const auto& map = asMap();
-		std::cout << "{\n";
-		for (auto it = map.begin(); it != map.end(); ++it) 
+		os << "{";
+		for (auto it = map.begin(); it != map.end(); ++it)
 		{
-			std::cout << space << it->first << ": ";
-			it->second.debugPrint(indent + 2);
-			if (std::next(it) != map.end()) std::cout << ",";
-			std::cout << "\n";
+			os << space << " " << it->first << ": ";
+			it->second.serialize(os, indent + 2);
+			if (std::next(it) != map.end()) os << ",";
+			os << "\n";
 		}
-		std::cout << space << "}";
+		os << space << "}";
+
 	}
+	else if (isMonostate())
+		os << "null";
 }
