@@ -1,8 +1,0 @@
-
-nothing: ""
-zero: 0
-spaces: "      "
-nested_empty {
-    inner {}
-}
-list_of_lists: [[1, 2], [3, 4], []]
