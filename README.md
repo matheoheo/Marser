@@ -1,5 +1,9 @@
 # Marser - C++ 20 Recursive Data Engine.
 
+<p align="center">
+  <img src="https://repository-images.githubusercontent.com/1146613328/af5fbb30-469a-4ee7-a130-3500fdd16d0d" width="80%" height="80%" alt="Marser Banner">
+</p>
+
 **Marser** is a lightweight, high-performance data serialization library built with **C++20**. 
 
 It provides a type-safe, JSON-like structure for managing configuration data (or any other data you need), featuring "dotted.path" navigation, and built-in encryption modules.
@@ -26,7 +30,7 @@ Marser relies on modern C++ to ensure zero unnecessary allocations, type safety 
 
 1. **Value** is implemented as a **std::variant**. This allows to handle multiple data types within a single object while preventing 'type-confusion' bugs.
 2. **Minimized heap allocations** Objects like **std::string_view** or **std::span** are used extensively throughout the code to reference existing memory, rather than copying it.
-3. **Dotted.Path** takes advantage of functionalities like **std::ranges::views::split** and **std::from_chars** to navigate the depp data structure without any copies.
+3. **Dotted.Path** takes advantage of functionalities like **std::ranges::views::split** and **std::from_chars** to navigate the deep data structure without any copies.
 
 # Usage Example
 You can use **Marser** to read configuration files, but not only. The library provides functionalities, such as saving files with encryption mechanism, loading them back and decrypting. You might also create your own Value map, pack it and save to file.
@@ -142,3 +146,20 @@ int main()
 2. Register your Type: Add your new type to **EncryptionType** enum.
 
 Once implemented, the **FilePacker** and **FileLoader** will automatically be able to use your new algorithm, without any change to core logic.
+
+# Build & Testing
+**Marser** uses **CMAKE (>= 3.15)** for building, and integraes **GoogleTests** for running unit tests.
+# Requirements
+  - Compiler supporting C++20
+  - Installed [CMake](https://cmake.org/)
+  - Installed [Git](https://git-scm.com/downloads)
+# Build Instructions (for windows)
+  1. Open command terminal (**cmd**)
+  2. Navigate to where you want to clone the project (**cd C:/Projects**)
+  3. Clone the repository (**git clone https://github.com/matheoheo/Marser.git**)
+  4. Enter the project folder (**cd Marser**)
+  5. Create build directory and navigate there (**mkdir build & cd build**)
+  6. Configure the project (**cmake ..**)
+  7. Compile the project (**cmake --build .**)
+
+Now you can run tests by typing the command **ctest** from **build** folder level, or you can navigate to **/bin/Debug** with **cd bin/Debug** and run **MarserTests.exe**
