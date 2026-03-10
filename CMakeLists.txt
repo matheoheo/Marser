@@ -28,6 +28,9 @@ add_library(MarserLib
 target_compile_features(MarserLib PUBLIC cxx_std_20)
 target_include_directories(MarserLib PUBLIC src)
 
+add_executable(MarserMain src/main.cpp)
+target_link_libraries(MarserMain MarserLib)
+
 #==================
 #GoogleTests
 #==================

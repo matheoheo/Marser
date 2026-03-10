@@ -34,6 +34,7 @@ namespace matt::parser
 	public:
 		explicit Value();
 		explicit Value(bool v);
+		explicit Value(int v);
 		explicit Value(std::int64_t v);
 		explicit Value(double v);
 		explicit Value(const std::string& v);

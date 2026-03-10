@@ -16,6 +16,11 @@ matt::parser::Value::Value(bool v)
 {
 }
 
+matt::parser::Value::Value(int v)
+	:mData(static_cast<int64_t>(v))
+{
+}
+
 matt::parser::Value::Value(std::int64_t v)
 	:mData(v)
 {
