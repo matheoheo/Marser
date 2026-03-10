@@ -31,6 +31,13 @@ target_include_directories(MarserLib PUBLIC src)
 add_executable(MarserMain src/main.cpp)
 target_link_libraries(MarserMain MarserLib)
 
+add_custom_command(
+    TARGET MarserMain 
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${CMAKE_CURRENT_SOURCE_DIR}/structureFile.txt"
+    "$<TARGET_FILE_DIR:MarserMain>/structureFile.txt"
+    COMMENT "Copying structureFile.txt to executable directory")
 #==================
 #GoogleTests
 #==================

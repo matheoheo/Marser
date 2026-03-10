@@ -1,0 +1,59 @@
+engine: {
+    metadata: {
+        id: "MARS-99-B"
+        author: "Matheoheo"
+        tags: ["cpp20", "recursive", "high-perf"]
+    }
+    
+    # Nested world data
+    world: {
+        dimensions: { x: 5000, y: 5000, z: 200 }
+        gravity: -9.81
+        
+        # List of objects, each being a nested map
+        entities: [
+            {
+                type: "Player"
+                pos: { x: 10.5, y: 0.0, z: 20.2 }
+                inventory: ["sword", "shield", "health_pot"]
+            },
+            {
+                type: "NPC"
+                id: 101
+                dialogue: {
+                    greeting: "Hello traveler!"
+                    quest_available: true
+                }
+            }
+        ]
+    }
+}
+
+# Advanced Network Nodes
+network: {
+    clusters: [
+        {
+            name: "EU-West"
+            servers: [
+                { ip: "192.168.1.1", port: 8080 } # Primary
+                { ip: "192.168.1.2", port: 8081 } # Backup
+            ]
+        },
+        {
+            name: "US-East"
+            servers: [
+                { ip: "10.0.0.1", port: 9000 }
+            ]
+        }
+    ]
+}
+
+# System settings
+performance: {
+    threading: {
+        enabled: true
+        max_workers: 8
+        priority: "high"
+    }
+    cache_path: "/tmp/marser/cache"
+}
