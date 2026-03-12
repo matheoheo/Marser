@@ -1,6 +1,6 @@
 #include "ShiftEncryption.h"
 #include "KeyDerivation.h"
-#include "logger/Logger.h"
+#include <matt/logger/Logger.h>
 
 matt::encryption::ShiftEncryption::ShiftEncryption(std::span<const std::byte> masterKey, std::span<const std::byte> saltKey)
 	:IEncryptionAlgorithm(masterKey)

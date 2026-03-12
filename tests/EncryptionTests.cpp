@@ -5,7 +5,7 @@
 #include "encryption/ShiftEncryption.h"
 #include "encryption/IEncryptionAlgorithm.h"
 #include "io/FilePacker.h"
-#include "utils/Random.h"
+#include <matt/random/Random.h>
 
 template <typename EncAlgorithm>
 requires std::derived_from<EncAlgorithm, matt::encryption::IEncryptionAlgorithm>
@@ -15,16 +15,16 @@ void testEncryptionAlgorithm()
 	std::vector<std::byte> masterKey{};
 	//Generate random master key
 	for (size_t i = 0; i < 8; ++i)
-		masterKey.emplace_back(static_cast<std::byte>(Random::get<int>(0, 255)));
+		masterKey.emplace_back(static_cast<std::byte>(matt::random::get(0, 255)));
 
 	//Generate random length of content string
-	size_t stringLength = static_cast<size_t>(Random::get<int>(90, 150));
+	size_t stringLength = static_cast<size_t>(matt::random::get(90, 150));
 	std::string testContent;
 	testContent.resize(stringLength);
 
 	//Generate string of random chars
 	for (size_t i = 0; i < testContent.size(); ++i)
-		testContent[i] = static_cast<unsigned char>(Random::get<int>(32, 126));
+		testContent[i] = static_cast<unsigned char>(matt::random::get(32, 126));
 
 	SCOPED_TRACE("testContent: " + testContent);
 

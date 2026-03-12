@@ -1,6 +1,6 @@
 #include "XorEncryption.h"
-#include "logger//Logger.h"
 #include "KeyDerivation.h"
+#include <matt/logger/Logger.h>
 
 matt::encryption::XorEncryption::XorEncryption(std::span<const std::byte> masterKey, std::span<const std::byte> saltKey)
     :IEncryptionAlgorithm(masterKey)

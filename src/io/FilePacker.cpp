@@ -1,12 +1,12 @@
 #include "FilePacker.h"
-#include "logger/Logger.h"
 #include "Constants.h"
-#include "utils/Random.h"
 #include "utils/Crc32.h"
 #include "encryption/EncryptionTypes.h"
 #include "encryption/EncryptionRegistry.h"
 #include "FileLoader.h"
 #include <fstream>
+#include <matt/logger/Logger.h>
+#include <matt/random/Random.h>
 
 bool matt::io::FilePacker::packContent(std::string_view content, const PackerData& data)
 {
@@ -34,7 +34,7 @@ std::array<std::byte, matt::io::constants::saltSize> matt::io::FilePacker::gener
 	auto size = constants::saltSize;
 	std::array<std::byte, matt::io::constants::saltSize> result;
 	for (size_t i = 0; i < size; ++i)
-		result[i] = static_cast<std::byte>(Random::get<int>(0, 255));
+		result[i] = static_cast<std::byte>(matt::random::get(0, 255));
 
 	return result;
 }

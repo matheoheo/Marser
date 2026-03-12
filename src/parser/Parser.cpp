@@ -1,6 +1,6 @@
 #include "Parser.h"
 #include "io/MattFile.h"
-#include "logger/Logger.h"
+#include <matt/logger/Logger.h>
 #include <iostream>
 
 matt::parser::Parser::Parser()
