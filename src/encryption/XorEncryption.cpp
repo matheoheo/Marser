@@ -20,7 +20,7 @@ matt::encryption::ByteVector matt::encryption::XorEncryption::decode(std::span<c
 
 matt::encryption::EncryptionType matt::encryption::XorEncryption::getType() const
 {
-    return EncryptionType::Xor;
+    return Xor;
 }
 
 matt::encryption::ByteVector matt::encryption::XorEncryption::performXor(std::span<const std::byte> bytes) const

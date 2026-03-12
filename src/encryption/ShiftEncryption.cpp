@@ -20,7 +20,7 @@ matt::encryption::ByteVector matt::encryption::ShiftEncryption::decode(std::span
 
 matt::encryption::EncryptionType matt::encryption::ShiftEncryption::getType() const
 {
-	return EncryptionType::Shift;
+	return Shift;
 }
 
 matt::encryption::ByteVector matt::encryption::ShiftEncryption::performShift(std::span<const std::byte> bytes, bool encode) const

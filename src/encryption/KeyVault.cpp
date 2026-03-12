@@ -20,9 +20,9 @@ matt::encryption::ByteVector matt::encryption::KeyVault::getKeyForAlgorithm(Encr
 
 void matt::encryption::KeyVault::initalize()
 {
-	mKeys[EncryptionType::Xor] = ByteVector{ std::byte{'M'}, std::byte{'A'}, std::byte{'T'}, std::byte{'H'}, std::byte{'E'}, std::byte{'O'},
+	mKeys[Xor] = ByteVector{ std::byte{'M'}, std::byte{'A'}, std::byte{'T'}, std::byte{'H'}, std::byte{'E'}, std::byte{'O'},
 		std::byte{'H'}, std::byte{'E'}, std::byte{'O'} };
-	mKeys[EncryptionType::Shift] = ByteVector{ std::byte{'M'}, std::byte{'A'}, std::byte{'R'}, std::byte{'S'}, std::byte{'E'}, std::byte{'R'} };
+	mKeys[Shift] = ByteVector{ std::byte{'M'}, std::byte{'A'}, std::byte{'R'}, std::byte{'S'}, std::byte{'E'}, std::byte{'R'} };
 }
 
 void matt::encryption::KeyVault::cleanup()

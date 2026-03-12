@@ -12,8 +12,10 @@ namespace matt::io
 		struct PackerData
 		{
 			std::filesystem::path resultPath;
-			encryption::EncryptionType encType = encryption::EncryptionType::None;
+			encryption::EncryptionType encType;
 			encryption::ByteVector masterKey;
+			PackerData()
+				:encType(encryption::None) {}
 		};
 		static bool packContent(std::string_view content, const PackerData& data);
 		static bool packFile(const std::filesystem::path& sourcePath, const PackerData& data);

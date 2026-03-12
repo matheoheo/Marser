@@ -26,7 +26,7 @@ TEST(IntegrationTest, FileLoaderPackerSymmetry)
 	auto rootStr = root.emitString();
 	const std::string filename = "integration.matt";
 	//save content with encryption
-	ASSERT_TRUE(matt::io::MattFile::saveContent(rootStr, filename, matt::encryption::EncryptionType::Xor));
+	ASSERT_TRUE(matt::io::MattFile::saveContent(rootStr, filename, matt::encryption::Xor));
 	
 	//Load content back to string (with decryption);
 	std::string loadedContent = matt::io::MattFile::loadAsText(filename);

@@ -55,7 +55,7 @@ matt::io::FileHeader matt::io::FilePacker::generateHeader(std::string_view conte
 matt::encryption::ByteVector matt::io::FilePacker::cryptData(std::string_view content, const PackerData& data, std::span<const std::byte> saltKey)
 {
 	auto bytesContent = std::as_bytes(std::span{content});
-	if (data.encType != encryption::EncryptionType::None)
+	if (data.encType != encryption::None)
 	{
 		matt::encryption::EncryptionRegistry registry;
 		auto algo = registry.getAlgorithm(data.encType, data.masterKey, saltKey);
@@ -75,7 +75,7 @@ bool matt::io::FilePacker::writeToFile(const std::filesystem::path& resultPath, 
 		return false;
 	}
 
-	if (static_cast<matt::encryption::EncryptionType>(header.encryptionType) != matt::encryption::EncryptionType::None)
+	if (header.encryptionType != matt::encryption::None)
 	{
 		//only if file is crypted we save header to file
 		if (!resultFile.write(reinterpret_cast<const char*>(&header), sizeof(header)))
