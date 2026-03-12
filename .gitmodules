@@ -1,0 +1,3 @@
+[submodule "dependencies/mattcore"]
+	path = dependencies/mattcore
+	url = https://github.com/matheoheo/MattCore.git
