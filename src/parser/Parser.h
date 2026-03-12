@@ -1,6 +1,7 @@
 #pragma once
 #include "Value.h"
 #include "Tokenizer.h"
+#include "encryption/KeyVault.h"
 #include <filesystem>
 #include <charconv>
 #include <span>
@@ -10,7 +11,7 @@ namespace matt::parser
 	{
 	public:
 		Parser();
-		static Value parseFile(const std::filesystem::path& file);
+		static Value parseFile(const std::filesystem::path& file, matt::encryption::KeyVault* keyVault = nullptr);
 		static Value parseContent(std::string_view content);
 	private:
 		Value internalParser(const TokenVector& tokens);

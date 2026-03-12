@@ -10,6 +10,22 @@ matt::encryption::KeyVault::~KeyVault()
 	cleanup();
 }
 
+bool matt::encryption::KeyVault::addKey(EncryptionType type, const ByteVector& key)
+{
+	auto [it, emplaced] = mKeys.try_emplace(type, key);
+	return emplaced;
+}
+
+bool matt::encryption::KeyVault::modifyKey(EncryptionType type, const ByteVector& key)
+{
+	auto it = mKeys.find(type);
+	if (it == std::end(mKeys))
+		return false;
+	it->second = key;
+
+	return true;
+}
+
 matt::encryption::ByteVector matt::encryption::KeyVault::getKeyForAlgorithm(EncryptionType type) const
 {
 	if (mKeys.contains(type))

@@ -57,8 +57,7 @@ matt::encryption::ByteVector matt::io::FilePacker::cryptData(std::string_view co
 	auto bytesContent = std::as_bytes(std::span{content});
 	if (data.encType != encryption::None)
 	{
-		matt::encryption::EncryptionRegistry registry;
-		auto algo = registry.getAlgorithm(data.encType, data.masterKey, saltKey);
+		auto algo = matt::encryption::EncryptionRegistry::getAlgorithm(data.encType, data.masterKey, saltKey);
 		if (algo)
 			return algo->encode(bytesContent);
 	}

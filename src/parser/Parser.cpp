@@ -8,11 +8,11 @@ matt::parser::Parser::Parser()
 {
 }
 
-matt::parser::Value matt::parser::Parser::parseFile(const std::filesystem::path& file)
+matt::parser::Value matt::parser::Parser::parseFile(const std::filesystem::path& file, matt::encryption::KeyVault* keyVault)
 {
 	std::string content;
 	if (matt::io::MattFile::isEncrypted(file))
-		content = matt::io::MattFile::loadAsText(file);
+		content = matt::io::MattFile::loadAsText(file, keyVault);
 	else
 		content = matt::io::MattFile::loadPlain(file);
 

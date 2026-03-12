@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "encryption/EncryptionTypes.h"
 #include "encryption/EncryptionRegistry.h"
+#include "encryption/KeyVault.h"
 
 namespace matt::io
 {
@@ -10,13 +11,15 @@ namespace matt::io
 	public:
 		using Path = std::filesystem::path;
 		//Packs, encrypts, and saves to disk in one go
-		static bool saveFile(const Path& fromFile, const Path& toFile, matt::encryption::EncryptionType encType);
+		static bool saveFile(const Path& fromFile, const Path& toFile, matt::encryption::EncryptionType encType, 
+			matt::encryption::KeyVault* keyVault = nullptr);
 		//Packs, encrytps and saves provided string in one go
-		static bool saveContent(std::string_view content, const Path& toFile, matt::encryption::EncryptionType encType);
+		static bool saveContent(std::string_view content, const Path& toFile, matt::encryption::EncryptionType encType,
+			matt::encryption::KeyVault* keyVault = nullptr);
 		//Loads from disk and decrypts into raw bytes
-		static matt::encryption::ByteVector loadFileRaw(const Path& fromFile);
+		static matt::encryption::ByteVector loadFileRaw(const Path& fromFile, matt::encryption::KeyVault* keyVault = nullptr);
 		//Loads, decrypts and converts to string
-		static std::string loadAsText(const Path& fromFile);
+		static std::string loadAsText(const Path& fromFile, matt::encryption::KeyVault* keyVault = nullptr);
 		//Loads as plain text (no decryption or anything)
 		static std::string loadPlain(const Path& fromFile);
 		//returns true is file is encrypted (has MATT header)

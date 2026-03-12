@@ -11,11 +11,10 @@ namespace matt::encryption
 		using Func = std::function<std::unique_ptr<IEncryptionAlgorithm>(std::span<const std::byte>, std::span<const std::byte>)>;
 	public:
 		EncryptionRegistry();
-		void registerAlgorithm(EncryptionType type, Func f);
-		std::unique_ptr<IEncryptionAlgorithm> getAlgorithm(EncryptionType type, std::span<const std::byte> masterKey, std::span<const std::byte> saltKey) const;
+		static void registerAlgorithm(EncryptionType type, Func f);
+		static void unregister(EncryptionType type);
+		static std::unique_ptr<IEncryptionAlgorithm> getAlgorithm(EncryptionType type, std::span<const std::byte> masterKey, std::span<const std::byte> saltKey) ;
 	private:
-		void populateRegistry();
-	private:
-		std::unordered_map<EncryptionType, Func> mRegistry;
+		static std::unordered_map<EncryptionType, Func>& getMap();
 	};
 }
