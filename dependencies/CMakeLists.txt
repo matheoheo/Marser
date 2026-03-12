@@ -3,10 +3,11 @@ include(FetchContent)
 #==================
 # MattCore
 #==================
-FetchContent_Declare(mattcore
-    GIT_REPOSITORY https://github.com/matheoheo/MattCore
-    GIT_TAG 14705a7a62f39fe964ab67a23a178f3e87dc7bfc)
+#FetchContent_Declare(mattcore
+#    GIT_REPOSITORY https://github.com/matheoheo/MattCore
+#    GIT_TAG 14705a7a62f39fe964ab67a23a178f3e87dc7bfc)
 
+#mattcore is treated as git submodule, so doesn't require fetching.
 add_subdirectory(mattcore)
 
 #==================
