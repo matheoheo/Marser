@@ -1,7 +1,7 @@
 #include "MattFile.h"
 #include "FileLoader.h"
 #include "FilePacker.h"
-#include "encryption/KeyVault.h"
+#include "matt/encryption/KeyVault.h"
 #include <fstream>
 
 bool matt::io::MattFile::saveFile(const Path& fromFile, const Path& toFile, matt::encryption::EncryptionType encType, matt::encryption::KeyVault* keyVault)

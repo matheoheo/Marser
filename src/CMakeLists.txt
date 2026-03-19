@@ -3,19 +3,19 @@
 #==================
 
 add_library(MarserLib
-    encryption/EncryptionRegistry.cpp
-    encryption/IEncryptionAlgorithm.cpp
-    encryption/KeyDerivation.cpp
-    encryption/KeyVault.cpp
-    encryption/ShiftEncryption.cpp
-    encryption/XorEncryption.cpp
-    io/FileLoader.cpp
-    io/FilePacker.cpp
-    io/MattFile.cpp
-    parser/Parser.cpp
-    parser/Tokenizer.cpp
-    parser/Value.cpp
-    utils/Crc32.cpp)
+    matt/encryption/EncryptionRegistry.cpp
+    matt/encryption/IEncryptionAlgorithm.cpp
+    matt/encryption/KeyDerivation.cpp
+    matt/encryption/KeyVault.cpp
+    matt/encryption/ShiftEncryption.cpp
+    matt/encryption/XorEncryption.cpp
+    matt/io/FileLoader.cpp
+    matt/io/FilePacker.cpp
+    matt/io/MattFile.cpp
+    matt/parser/Parser.cpp
+    matt/parser/Tokenizer.cpp
+    matt/parser/Value.cpp
+    matt/utils/Crc32.cpp)
 
 target_compile_features(MarserLib PUBLIC cxx_std_20)
 target_include_directories(MarserLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

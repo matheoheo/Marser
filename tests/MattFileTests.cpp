@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "parser/Value.h"
-#include "io/MattFile.h"
-#include "encryption/EncryptionTypes.h"
-#include "parser/Parser.h"
+#include "matt/parser/Value.h"
+#include "matt/io/MattFile.h"
+#include "matt/encryption/EncryptionTypes.h"
+#include "matt/parser/Parser.h"
 
 TEST(IntegrationTest, FileLoaderPackerSymmetry)
 {

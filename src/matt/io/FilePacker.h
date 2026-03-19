@@ -2,7 +2,7 @@
 #include "FileHeader.h"
 #include <filesystem>
 #include <array>
-#include "encryption/EncryptionRegistry.h"
+#include "matt/encryption/EncryptionRegistry.h"
 
 namespace matt::io
 {

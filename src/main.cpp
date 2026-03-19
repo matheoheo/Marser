@@ -1,6 +1,6 @@
 #include <iostream>
-#include "parser/Parser.h"
-#include "io/MattFile.h"
+#include "matt/parser/Parser.h"
+#include "matt/io/MattFile.h"
 
 //Full pipeline logic
 

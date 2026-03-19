@@ -3,11 +3,11 @@
 #include <type_traits>
 #include <matt/random/Random.h>
 #include <matt/logger/Logger.h>
-#include "encryption/XorEncryption.h"
-#include "encryption/ShiftEncryption.h"
-#include "encryption/IEncryptionAlgorithm.h"
-#include "encryption/KeyVault.h"
-#include "io/FilePacker.h"
+#include "matt/encryption/XorEncryption.h"
+#include "matt/encryption/ShiftEncryption.h"
+#include "matt/encryption/IEncryptionAlgorithm.h"
+#include "matt/encryption/KeyVault.h"
+#include "matt/io/FilePacker.h"
 
 
 template <typename EncAlgorithm>

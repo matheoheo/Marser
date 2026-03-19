@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <parser/Parser.h>
+#include "matt/parser/Parser.h"
 
 TEST(ParserTest, PathNavigation)
 {

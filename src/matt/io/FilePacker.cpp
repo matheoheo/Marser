@@ -1,8 +1,8 @@
 #include "FilePacker.h"
 #include "Constants.h"
-#include "utils/Crc32.h"
-#include "encryption/EncryptionTypes.h"
-#include "encryption/EncryptionRegistry.h"
+#include "matt/utils/Crc32.h"
+#include "matt/encryption/EncryptionTypes.h"
+#include "matt/encryption/EncryptionRegistry.h"
 #include "FileLoader.h"
 #include <fstream>
 #include <matt/logger/Logger.h>
