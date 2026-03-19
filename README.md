@@ -141,14 +141,98 @@ int main()
 ```
 
 # Extensibility: Adding your own encryption
-**Marser** is designed to be modular. You can add a custom encryption algorithm by following two simple steps:
+**Marser** is designed to be modular. You can add a custom encryption algorithm by following three simple steps:
 1. Inherit from **IEncryptionAlgorithm**: Create a new class that overrides the virtual methods.
-2. Register your Type: Add your new type to **EncryptionType** enum.
+2. Register your Type: Create your variable of type **EncryptionType** (**matt::encryption::EncryptionType**)
+3. Register your new algorithm by calling **matt::encryption::EncryptionRegistry::registerAlgorithm** function.
+
+```C++
+#include <iostream>
+#include "encryption/EncryptionRegistry.h"
+
+//Create id of type EncryptionType (uint8_t), with the value (preferably) > 100
+matt::encryption::EncryptionType myCustomAlgorithmType = 101;
+
+//Make your custom class that inherits from IEncryptionAlgorithm
+class MyCustomAlgorithm : public matt::encryption::IEncryptionAlgorithm
+{
+public:
+	MyCustomAlgorithm(std::span<const std::byte> masterKey)
+		:IEncryptionAlgorithm(masterKey)
+	{
+
+	}
+	// Inherited via IEncryptionAlgorithm
+	virtual matt::encryption::ByteVector encode(std::span<const std::byte> bytes) const override
+	{
+		//Your custom encrypting code;
+		return {};
+	}
+
+	virtual matt::encryption::ByteVector decode(std::span<const std::byte> bytes) const override
+	{
+		//Here your custom decrypting code.
+		return {};
+	}
+
+	virtual matt::encryption::EncryptionType getType() const override
+	{
+		return myCustomAlgorithmType;
+	}
+
+};
+
+int main()
+{
+	//We have our MyCustomAlgorithm class, so we can register it
+	matt::encryption::EncryptionRegistry::registerAlgorithm(myCustomAlgorithmType,
+		[](std::span<const std::byte> key1, std::span<const std::byte> key2) {
+			return std::make_unique<MyCustomAlgorithm>(key1);
+		});
+
+	//Now algorithm is registered!
+	auto algorithm = matt::encryption::EncryptionRegistry::getAlgorithm(myCustomAlgorithmType, {}, {});
+	if (algorithm)
+		std::cout << "Algorithm registered!\n";
+	else
+		std::cout << "Failed to register algorithm.\n";
+}
+```
+
+Aside from adding custom algorithms for encryption, you should also save your new master key for the algorithm. Class **KeyVault** will help you with that.
+```C++
+#include <iostream>
+#include "encryption/KeyVault.h"
+#include "parser/Parser.h"
+#include "io/MattFile.h"
+//How to add new key to the vault and use it later.
+int main()
+{
+	//Registering new key
+	constexpr uint8_t myCustomAlgorithmType = 101;
+	matt::encryption::ByteVector myCustomKey = matt::encryption::ByteVector
+	{
+		std::byte{'M'}, std::byte{'Y'}, std::byte{'K'}, std::byte{'E'}, std::byte{'Y'}
+	};
+	matt::encryption::KeyVault keyVault;
+	keyVault.addKey(myCustomAlgorithmType, myCustomKey);
+
+	//Now after keyVault has your custom key, you can use it by passing keyVault class to the Parser
+	//keyVault will be used to find the proper key.
+	matt::parser::Parser::parseFile("myFile.txt", &keyVault);
+
+	//Also you might use it to pack data.
+	matt::io::MattFile::saveContent("MyContent", "Result.matt", myCustomAlgorithmType, &keyVault);
+
+	//If you used custom key to save file, you are required also to use the same keyVault when loading;
+	matt::io::MattFile::loadAsText("Result.matt", &keyVault);
+}
+```
 
 Once implemented, the **FilePacker** and **FileLoader** will automatically be able to use your new algorithm, without any change to core logic.
 
 # Build & Testing
-**Marser** uses **CMAKE (>= 3.15)** for building, and integraes **GoogleTests** for running unit tests.
+**Marser** uses **CMAKE (>= 3.15)** for building, and integrates **GoogleTests** for running unit tests.
 # Requirements
   - Compiler supporting C++20
   - Installed [CMake](https://cmake.org/)
@@ -156,7 +240,7 @@ Once implemented, the **FilePacker** and **FileLoader** will automatically be ab
 # Build Instructions (for windows)
   1. Open command terminal (**cmd**)
   2. Navigate to where you want to clone the project (**cd C:/Projects**)
-  3. Clone the repository (**git clone https://github.com/matheoheo/Marser.git**)
+  3. Clone the repository (**git clone --recursive https://github.com/matheoheo/Marser.git**)
   4. Enter the project folder (**cd Marser**)
   5. Create build directory and navigate there (**mkdir build & cd build**)
   6. Configure the project (**cmake ..**)
