@@ -298,36 +298,60 @@ std::string matt::parser::Value::emitString() const
 
 void matt::parser::Value::serialize(std::ostream& os, int indent) const
 {
-	std::string space(indent, ' ');
-	if (isString()) os << "\"" << asString() << "\"";
-	else if (isBool())  os << (asBool() ? "true" : "false");
-	else if (isInt()) os << asInt();
-	else if (isDouble()) os << asDouble();
-	else if (isList())
+	std::string space(indent, ' ');         
+	std::string nextSpace(indent + 2, ' '); 
+
+	if (isString()) 
+		os << "\"" << asString() << "\"";
+	
+	else if (isBool()) 
+		os << (asBool() ? "true" : "false");
+	
+	else if (isInt()) 
+		os << asInt();
+	
+	else if (isDouble()) 
+		os << asDouble();
+	
+	else if (isList()) 
 	{
 		const auto& list = asList();
-		os << "[";
-		for (size_t i = 0; i < list.size(); ++i)
+		if (list.empty()) 
 		{
-			list[i].serialize(os, indent + 2);
-			if (i < list.size() - 1) os << " ";
+			os << "[]";
+			return;
 		}
-		os << "]";
-	}
-	else if (isMap())
-	{
-		const auto& map = asMap();
-		os << "{";
-		for (auto it = map.begin(); it != map.end(); ++it)
+		os << "[\n";
+		for (size_t i = 0; i < list.size(); ++i) 
 		{
-			os << space << " " << it->first << ": ";
-			it->second.serialize(os, indent + 2);
-			if (std::next(it) != map.end()) os << ",";
+			os << nextSpace;
+			list[i].serialize(os, indent + 2);
+			if (i < list.size() - 1)
+				os << ",";
 			os << "\n";
 		}
-		os << space << "}";
-
+		os << space << "]";
 	}
-	else if (isMonostate())
+	else if (isMap()) 
+	{
+		const auto& map = asMap();
+		if (map.empty()) 
+		{
+			os << "{}";
+			return;
+		}
+		os << "{\n";
+		bool first = true;
+		for (const auto& [key, value] : map) 
+		{
+			if (!first) 
+				os << ",\n";
+			os << nextSpace <<  key << ": ";
+			value.serialize(os, indent + 2);
+			first = false;
+		}
+		os << "\n" << space << "}";
+	}
+	else if (isMonostate()) 
 		os << "null";
 }
